@@ -40,10 +40,17 @@ const options = [
 ];
 
 const Sidebar = () => {
-  const [activeMenu, setActiveMenu] = useState(0);
+  const [activeMenu, setActiveMenu] = useState(2);
 
   return (
-    <Box width={220} height="100vh">
+    <Box
+      width={225}
+      height="100vh"
+      sx={{
+        borderRight: '1px solid #E4F0FF',
+        boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.25)',
+      }}
+    >
       <Stack height="60px" alignItems="center" justifyContent="center">
         <Typography
           variant="h5"
@@ -61,7 +68,7 @@ const Sidebar = () => {
           height: 'calc(100% - 60px)',
           backgroundColor: '#F2F9FF',
           borderRight: '1px solid #E4F0FF',
-          boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.25)',
+          boxShadow: '0px 3px 2px rgba(0, 0, 0, 0.25)',
         }}
         px={1}
         py={3}
@@ -95,7 +102,7 @@ const Sidebar = () => {
           ))}
         </Stack>
 
-        <Stack spacing={1}>
+        <Stack>
           {options.map((option, index) => (
             <Stack
               key={index}

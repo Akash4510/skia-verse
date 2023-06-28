@@ -49,3 +49,7 @@ select {
   padding: 0;
   scroll-behavior: smooth;
 }
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
