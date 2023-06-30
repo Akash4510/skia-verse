@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { Sidebar } from './components';
 import { Events } from './sections';
 import './App.css';
@@ -29,7 +29,11 @@ const App = () => {
           overflowX: 'hidden',
         }}
       >
-        <Stack height="60px" alignItems="center" justifyContent="center" />
+        <Stack height="60px" alignItems="center" justifyContent="center">
+          <Typography variant="body" sx={{ opacity: 0.5 }}>
+            Created by Akash Gupta
+          </Typography>
+        </Stack>
 
         <Stack
           direction="column"
