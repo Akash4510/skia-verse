@@ -35,69 +35,85 @@ const EventCard = ({
         },
       }}
     >
-      <Stack direction="row" spacing={2}>
-        <Box width="140px" borderRadius="10px">
-          <img
-            style={{
-              borderRadius: '10px',
-              width: '140px',
-              height: '140px',
-              objectFit: 'cover',
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        spacing={2}
+        flexGrow={1}
+      >
+        <Stack direction="row" spacing={2}>
+          <Box width="140px" borderRadius="10px">
+            <img
+              style={{
+                borderRadius: '10px',
+                width: '140px',
+                height: '140px',
+                objectFit: 'cover',
+              }}
+              src={img}
+              alt={title}
+            />
+          </Box>
+          <Stack spacing={2} py={1.5} justifyContent="space-between">
+            <Stack>
+              <Typography variant="h6" fontSize="1.4rem">
+                {title}
+              </Typography>
+              <Typography variant="caption" fontSize="1rem">
+                {organiser}
+              </Typography>
+            </Stack>
+
+            <Box
+              width="max-content"
+              sx={{
+                border: '0.6px solid #74BFFF4D',
+                borderRadius: '5px',
+                padding: '0.05rem 0.5rem',
+                backgroundColor: '#74BFFF1A',
+                cursor: 'pointer',
+              }}
+            >
+              <Typography
+                variant="caption"
+                fontSize="0.8rem"
+                sx={{ color: '#0089FF' }}
+              >
+                {status}
+              </Typography>
+            </Box>
+          </Stack>
+        </Stack>
+
+        <Stack alignItems="center" justifyContent="flex-end" py={2}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={1}
+            sx={{
+              marginRight: '80px',
             }}
-            src={img}
-            alt={title}
-          />
-        </Box>
-        <Stack spacing={2} py={1.5} justifyContent="space-between">
-          <Stack>
-            <Typography variant="h6" fontSize="1.4rem">
-              {title}
-            </Typography>
+          >
+            <CurrencyInr size={20} />
             <Typography variant="caption" fontSize="1rem">
-              {organiser}
+              <span style={{ fontWeight: '600' }}>{pricePool}</span> in prices
             </Typography>
           </Stack>
 
-          <Box
-            width="max-content"
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={1}
             sx={{
-              border: '0.6px solid #74BFFF4D',
-              borderRadius: '5px',
-              padding: '0.05rem 0.5rem',
-              backgroundColor: '#74BFFF1A',
-              cursor: 'pointer',
+              marginRight: '80px',
             }}
           >
-            <Typography
-              variant="caption"
-              fontSize="0.8rem"
-              sx={{ color: '#0089FF' }}
-            >
-              {status}
+            <Users size={20} />
+            <Typography variant="caption" fontSize="1rem">
+              <span style={{ fontWeight: '600' }}>{noOfRegistrations}</span>{' '}
+              registered
             </Typography>
-          </Box>
-        </Stack>
-      </Stack>
-
-      <Stack
-        alignItems="center"
-        justifyContent="flex-end"
-        py={2}
-        sx={{ mt: '50px' }}
-      >
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <CurrencyInr size={20} />
-          <Typography variant="caption" fontSize="1rem">
-            <span style={{ fontWeight: '600' }}>{pricePool}</span> in prices
-          </Typography>
-        </Stack>
-
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Users size={20} />
-          <Typography variant="caption" fontSize="1rem">
-            <span style={{ fontWeight: '600' }}>{noOfRegistrations}</span>{' '}
-            registered
-          </Typography>
+          </Stack>
         </Stack>
       </Stack>
 
