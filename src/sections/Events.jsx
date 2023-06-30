@@ -13,7 +13,8 @@ const Events = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const dispatch = useDispatch();
 
-  const events = useSelector((state) => state.allEvents);
+  const storedEvents = localStorage.getItem('allEvents');
+  const events = JSON.parse(storedEvents);
   const { isDetailedViewOpen, selectedEventId } = useSelector(
     (state) => state.eventData
   );

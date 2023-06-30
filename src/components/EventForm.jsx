@@ -70,7 +70,11 @@ const MasterForm = ({ handleClose }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    let storedState = localStorage.getItem('allEvents');
+    storedState = JSON.parse(storedState);
+
     const newEvent = {
+      id: storedState.length + 1,
       title: eventTitle,
       description: eventDesc,
       img: eventImage,
@@ -94,8 +98,12 @@ const MasterForm = ({ handleClose }) => {
     };
     console.log(newEvent);
 
-    dispatch({ type: 'ADD_EVENT', payload: newEvent });
-    console.log('Dispatch done');
+    localStorage.setItem(
+      'allEvents',
+      JSON.stringify([...storedState, newEvent])
+    );
+
+    console.log('Sucessfully stored data in local storage');
     handleClose();
   };
 
