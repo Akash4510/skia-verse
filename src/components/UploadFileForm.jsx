@@ -1,11 +1,12 @@
 import React, { useState, useRef } from 'react';
 import { Stack, Button, Typography } from '@mui/material';
-import { X } from 'phosphor-react';
+import { CodesandboxLogo, X } from 'phosphor-react';
 import { filePng } from '../constants/images';
 
 const UploadFileForm = ({ file, setFile, handleClose }) => {
   const dropRef = useRef(null);
   const [drag, setDrag] = useState(false);
+  const [fileName, setFileName] = useState('');
 
   const onDragEnter = (e) => {
     e.preventDefault();
@@ -34,7 +35,17 @@ const UploadFileForm = ({ file, setFile, handleClose }) => {
     e.stopPropagation();
     setDrag(false);
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      setFile(e.dataTransfer.files[0]);
+      const uploadedFile = e.dataTransfer.files[0];
+      setFileName(uploadedFile.name);
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const convertedFile = e.target.result;
+        console.log('Converted file: ', convertedFile);
+        setFile(convertedFile);
+      };
+
+      reader.readAsDataURL(uploadedFile);
       e.dataTransfer.clearData();
     }
   };
@@ -43,7 +54,17 @@ const UploadFileForm = ({ file, setFile, handleClose }) => {
     e.preventDefault();
     e.stopPropagation();
     if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
+      const uploadedFile = e.target.files[0];
+      setFileName(uploadedFile.name);
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const convertedFile = e.target.result;
+        console.log('Converted file: ', convertedFile);
+        setFile(convertedFile);
+      };
+
+      reader.readAsDataURL(uploadedFile);
     }
   };
 
@@ -107,7 +128,7 @@ const UploadFileForm = ({ file, setFile, handleClose }) => {
           <Stack direction="row" alignItems="center" spacing={1}>
             <img src={filePng} style={{ width: '30px' }} alt="file" />
             <Typography variant="caption2" fontWeight={300}>
-              {file.name}
+              {fileName}
             </Typography>
           </Stack>
 

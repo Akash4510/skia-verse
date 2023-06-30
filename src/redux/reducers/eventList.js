@@ -1,4 +1,4 @@
-import { event1 } from '../../constants/images';
+import { event1, event1Banner } from '../../constants/images';
 
 const initialState = [
   {
@@ -7,7 +7,7 @@ const initialState = [
     description:
       'This competition is organized by Enigma, computer science club of Mahindra University,Hyderabad,The Quiz is based on fundamental of programming. You have to submit only one illustration. The deadline for work submission is 28 October 2022.',
     img: event1,
-    bannerImg: event1,
+    bannerImg: event1Banner,
     organiser: 'Synolo',
     status: 'Ongoing',
     pricePool: 30000,

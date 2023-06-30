@@ -37,7 +37,16 @@ const EventCard = ({
     >
       <Stack direction="row" spacing={2}>
         <Box width="140px" borderRadius="10px">
-          <img style={{ borderRadius: '10px' }} src={img} alt={title} />
+          <img
+            style={{
+              borderRadius: '10px',
+              width: '140px',
+              height: '140px',
+              objectFit: 'cover',
+            }}
+            src={img}
+            alt={title}
+          />
         </Box>
         <Stack spacing={2} py={1.5} justifyContent="space-between">
           <Stack>

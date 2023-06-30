@@ -45,6 +45,7 @@ const Sidebar = () => {
   return (
     <Box
       width={225}
+      minWidth={225}
       height="100vh"
       sx={{
         borderRight: '1px solid #E4F0FF',
