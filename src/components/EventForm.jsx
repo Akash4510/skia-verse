@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Stack, Button, TextField, Typography, MenuItem } from '@mui/material';
 import {
   CloudArrowUp,
@@ -20,27 +19,25 @@ import AntSwitch from './AntSwitch';
 
 const eventTypes = [
   {
-    value: 'hackathon',
+    value: 'Hackathon',
     label: 'Hackathon',
   },
   {
-    value: 'workshop',
+    value: 'Workshop',
     label: 'Workshop',
   },
   {
-    value: 'seminar',
+    value: 'Seminar',
     label: 'Seminar',
   },
   {
-    value: 'webinar',
+    value: 'Webinar',
     label: 'Webinar',
   },
 ];
 
 const MasterForm = ({ handleClose }) => {
   const [currentPopUp, setCurrentPopUp] = useState(1);
-
-  const dispatch = useDispatch();
 
   // Form 1 Fields
   const [eventTitle, setEventTitle] = useState('');

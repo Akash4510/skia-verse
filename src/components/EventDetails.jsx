@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
   Stack,
@@ -22,8 +21,8 @@ import IconButton from './IconButton';
 import AntSwitch from './AntSwitch';
 
 const EventDetails = ({ eventId, handleClose }) => {
-  const dispatch = useDispatch();
-  const events = useSelector((state) => state.allEvents);
+  const storedEvents = localStorage.getItem('allEvents');
+  const events = JSON.parse(storedEvents);
   const selectedEvent = events.find((event) => event.id === eventId);
 
   console.log(selectedEvent);
@@ -32,6 +31,76 @@ const EventDetails = ({ eventId, handleClose }) => {
 
   const handleTabChange = (event, newTab) => {
     setSelectedTab(newTab);
+  };
+
+  const [eventDesc, setEventDesc] = useState(selectedEvent.description);
+  const [eventMode, setEventMode] = useState(selectedEvent.mode);
+  const [participationType, setParticipationType] = useState(
+    selectedEvent.participationType
+  );
+  const [minMembers, setMinMembers] = useState(selectedEvent.minMembers);
+  const [maxMembers, setMaxMembers] = useState(selectedEvent.maxMembers);
+  const [judgingMode, setJudgingMode] = useState(selectedEvent.judgingMode);
+  const [location, setLocation] = useState(selectedEvent.location);
+  const [isPrivate, setIsPrivate] = useState(selectedEvent.isPrivate);
+
+  const [descEdiable, setDescEdiable] = useState(false);
+  const [dataEditable, setDataEditable] = useState(false);
+
+  const resetDesc = () => {
+    setEventDesc(selectedEvent.description);
+    setDescEdiable(false);
+  };
+
+  const resetData = () => {
+    setEventMode(selectedEvent.mode);
+    setParticipationType(selectedEvent.participationType);
+    setMinMembers(selectedEvent.minMembers);
+    setMaxMembers(selectedEvent.maxMembers);
+    setJudgingMode(selectedEvent.judgingMode);
+    setLocation(selectedEvent.location);
+    setIsPrivate(selectedEvent.isPrivate);
+    setDataEditable(false);
+  };
+
+  const updateDesc = () => {
+    const newEvents = events.map((event) => {
+      if (event.id === eventId) {
+        return {
+          ...event,
+          description: eventDesc,
+        };
+      }
+      return event;
+    });
+    localStorage.setItem('allEvents', JSON.stringify(newEvents));
+    setDescEdiable(false);
+  };
+
+  const updateData = () => {
+    const newEvents = events.map((event) => {
+      if (event.id === eventId) {
+        return {
+          ...event,
+          mode: eventMode,
+          participationType,
+          minMembers,
+          maxMembers,
+          judgingMode,
+          location,
+          isPrivate,
+        };
+      }
+      return event;
+    });
+    localStorage.setItem('allEvents', JSON.stringify(newEvents));
+    setDataEditable(false);
+  };
+
+  const deleteEvent = () => {
+    const newEvents = events.filter((event) => event.id !== eventId);
+    localStorage.setItem('allEvents', JSON.stringify(newEvents));
+    handleClose();
   };
 
   return (
@@ -63,7 +132,30 @@ const EventDetails = ({ eventId, handleClose }) => {
           alt="banner"
         />
       </Box>
-      <Typography variant="h4">{selectedEvent.title}</Typography>
+      <Stack direction="row" alignItems="center" justifyContent="space-between">
+        <Typography variant="h4">{selectedEvent.title}</Typography>
+        <Button
+          variant="contained"
+          disableElevation
+          sx={{
+            width: '120px',
+            borderRadius: '10px',
+            textTransform: 'none',
+            backgroundColor: '#F25E2C',
+            borderColor: '#F25E2C',
+            '&:hover': {
+              // Slighly darken the background on hover
+              backgroundColor: '#F25E3C',
+              borderColor: '#F25E3C',
+            },
+          }}
+          onClick={deleteEvent}
+        >
+          <Typography variant="caption2" fontWeight={500}>
+            Delete Event
+          </Typography>
+        </Button>
+      </Stack>
 
       <Tabs
         sx={{
@@ -90,10 +182,48 @@ const EventDetails = ({ eventId, handleClose }) => {
             border="1px solid rgba(0, 0, 0, 0.4)"
             borderRadius="10px"
           >
-            <Typography variant="body" fontWeight={300}>
-              {selectedEvent.description}
-            </Typography>
-            <Stack width="100%">
+            <textarea
+              name="event-desc"
+              id="event-desc"
+              cols="30"
+              rows="4"
+              resize
+              style={{
+                resize: 'none',
+                borderRadius: '8px',
+                border: 'none',
+                outline: 'none',
+                fontSize: '1rem',
+                opacity: '0.8',
+              }}
+              value={eventDesc}
+              onChange={(e) => setEventDesc(e.target.value)}
+              disabled={!descEdiable}
+            ></textarea>
+            <Stack
+              width="100%"
+              direction="row"
+              alignItems="center"
+              spacing={2}
+              justifyContent="flex-end"
+              sx={{
+                marginTop: '10px',
+              }}
+            >
+              {descEdiable && (
+                <Button
+                  variant="outlined"
+                  disableElevation
+                  sx={{
+                    width: '120px',
+                    borderRadius: '10px',
+                    textTransform: 'none',
+                  }}
+                  onClick={resetDesc}
+                >
+                  Cancel
+                </Button>
+              )}
               <Button
                 variant="contained"
                 disableElevation
@@ -102,17 +232,17 @@ const EventDetails = ({ eventId, handleClose }) => {
                   marginLeft: 'auto',
                   borderRadius: '10px',
                   textTransform: 'none',
-                  backgroundColor: '#F25E2C',
-                  borderColor: '#F25E2C',
+                  backgroundColor: descEdiable ? '#2B81F8' : '#F25E2C',
+                  borderColor: descEdiable ? '#2B81F8' : '#F25E2C',
                   '&:hover': {
                     // Slighly darken the background on hover
-                    backgroundColor: '#F25E3C',
-                    borderColor: '#F25E3C',
+                    backgroundColor: descEdiable ? '#2B82F8' : '#F25E3C',
+                    borderColor: descEdiable ? '#2B82F8' : '#F25E3C',
                   },
                 }}
-                onClick={handleClose}
+                onClick={descEdiable ? updateDesc : () => setDescEdiable(true)}
               >
-                Edit
+                {descEdiable ? 'Save' : 'Edit'}
               </Button>
             </Stack>
           </Stack>
@@ -124,7 +254,7 @@ const EventDetails = ({ eventId, handleClose }) => {
           </Typography>
           <Stack
             p={2}
-            spacing={2}
+            spacing={3}
             width="100%"
             border="1px solid rgba(0, 0, 0, 0.4)"
             borderRadius="10px"
@@ -149,7 +279,13 @@ const EventDetails = ({ eventId, handleClose }) => {
                   variant="outlined"
                   placeholder="Enter location"
                   sx={{ width: '300px' }}
-                  value={selectedEvent.location}
+                  value={location}
+                  onChange={(e) => {
+                    if (dataEditable) {
+                      setLocation(e.target.value);
+                    }
+                  }}
+                  disabled={!dataEditable}
                 />
               </Stack>
 
@@ -164,13 +300,23 @@ const EventDetails = ({ eventId, handleClose }) => {
                 </Typography>
                 <Stack direction="row" spacing={2}>
                   <IconButton
-                    checked={selectedEvent.mode === 'offline'}
+                    checked={eventMode === 'offline'}
+                    onClick={() => {
+                      if (dataEditable) {
+                        setEventMode('offline');
+                      }
+                    }}
                     icon={<MapPin size={22} />}
                     text="Offline"
                     width="130px"
                   />
                   <IconButton
-                    checked={selectedEvent.mode === 'online'}
+                    checked={eventMode === 'online'}
+                    onClick={() => {
+                      if (dataEditable) {
+                        setEventMode('online');
+                      }
+                    }}
                     icon={<GlobeHemisphereEast size={22} />}
                     text="Online"
                     width="130px"
@@ -195,13 +341,23 @@ const EventDetails = ({ eventId, handleClose }) => {
                 </Typography>
                 <Stack direction="row" spacing={2}>
                   <IconButton
-                    checked={selectedEvent.participationType === 'individual'}
+                    checked={participationType === 'individual'}
+                    onClick={() => {
+                      if (dataEditable) {
+                        setParticipationType('individual');
+                      }
+                    }}
                     icon={<User size={22} />}
                     text="Individual"
                     width="130px"
                   />
                   <IconButton
-                    checked={selectedEvent.participationType !== 'individual'}
+                    checked={participationType === 'group'}
+                    onClick={() => {
+                      if (dataEditable) {
+                        setParticipationType('group');
+                      }
+                    }}
                     icon={<Users size={22} />}
                     text="Group"
                     width="130px"
@@ -228,7 +384,12 @@ const EventDetails = ({ eventId, handleClose }) => {
                     id="min-members"
                     className="num-input"
                     type="number"
-                    value={selectedEvent.minMembers}
+                    value={minMembers}
+                    onChange={(e) => {
+                      if (dataEditable) {
+                        setMinMembers(e.target.value);
+                      }
+                    }}
                     style={{
                       width: '140px',
                       border: '1px solid #ccc',
@@ -255,7 +416,12 @@ const EventDetails = ({ eventId, handleClose }) => {
                     id="max-members"
                     className="num-input"
                     type="number"
-                    value={selectedEvent.maxMembers}
+                    value={maxMembers}
+                    onChange={(e) => {
+                      if (dataEditable) {
+                        setMaxMembers(e.target.value);
+                      }
+                    }}
                     style={{
                       width: '140px',
                       border: '1px solid #ccc',
@@ -297,35 +463,47 @@ const EventDetails = ({ eventId, handleClose }) => {
                 </Typography>
                 <Stack direction="row" spacing={1}>
                   <IconButton
-                    checked={selectedEvent.judgingMode === 'likes'}
+                    checked={judgingMode === 'likes'}
                     icon={<Heart size={22} />}
                     text="Likes"
                     width="100px"
+                    onClick={() => {
+                      if (dataEditable) {
+                        setJudgingMode('likes');
+                      }
+                    }}
                   />
                   <IconButton
-                    checked={selectedEvent.judgingMode === 'judge'}
+                    checked={judgingMode === 'judge'}
                     icon={
                       <img
                         src={gavel}
                         alt="gavel"
                         style={{
                           width: '38px',
-                          color:
-                            selectedEvent.judgingMode === 'judge'
-                              ? '#2B81F8'
-                              : '#fff',
+                          color: judgingMode === 'judge' ? '#2B81F8' : '#fff',
                           margin: '2px 4px',
                         }}
                       />
                     }
                     text="Judging"
                     width="100px"
+                    onClick={() => {
+                      if (dataEditable) {
+                        setJudgingMode('judge');
+                      }
+                    }}
                   />
                   <IconButton
-                    checked={selectedEvent.judgingMode === 'hybrid'}
+                    checked={judgingMode === 'hybrid'}
                     icon={<User size={22} />}
                     text="Hybrid"
                     width="100px"
+                    onClick={() => {
+                      if (dataEditable) {
+                        setJudgingMode('hybrid');
+                      }
+                    }}
                   />
                 </Stack>
               </Stack>
@@ -334,30 +512,65 @@ const EventDetails = ({ eventId, handleClose }) => {
                 <Typography variant="caption2" fontWeight={500}>
                   Private
                 </Typography>
-                <AntSwitch checked={selectedEvent.isPrivate} />
+                <AntSwitch
+                  checked={isPrivate}
+                  onChange={() => {
+                    if (dataEditable) {
+                      setIsPrivate(!isPrivate);
+                    }
+                  }}
+                />
               </Stack>
             </Stack>
-            <Stack width="100%">
+            <Stack
+              width="100%"
+              direction="row"
+              alignItems="center"
+              spacing={2}
+              justifyContent="flex-end"
+              sx={{
+                marginTop: '10px',
+              }}
+            >
+              {dataEditable && (
+                <Button
+                  variant="outlined"
+                  disableElevation
+                  sx={{
+                    width: '120px',
+                    borderRadius: '10px',
+                    textTransform: 'none',
+                  }}
+                  onClick={resetData}
+                >
+                  Cancel
+                </Button>
+              )}
               <Button
                 variant="contained"
                 disableElevation
                 sx={{
                   width: '120px',
-                  marginTop: '10px',
                   marginLeft: 'auto',
                   borderRadius: '10px',
                   textTransform: 'none',
-                  backgroundColor: '#F25E2C',
-                  borderColor: '#F25E2C',
+                  backgroundColor: dataEditable ? '#2B81F8' : '#F25E2C',
+                  borderColor: dataEditable ? '#2B81F8' : '#F25E2C',
                   '&:hover': {
                     // Slighly darken the background on hover
-                    backgroundColor: '#F25E3C',
-                    borderColor: '#F25E3C',
+                    backgroundColor: dataEditable ? '#2B82F8' : '#F25E3C',
+                    borderColor: dataEditable ? '#2B82F8' : '#F25E3C',
                   },
                 }}
-                onClick={handleClose}
+                onClick={() => {
+                  if (dataEditable) {
+                    updateData();
+                  } else {
+                    setDataEditable(true);
+                  }
+                }}
               >
-                Edit
+                {dataEditable ? 'Save' : 'Edit'}
               </Button>
             </Stack>
           </Stack>
