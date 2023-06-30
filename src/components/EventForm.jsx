@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Stack, Button, TextField, Typography, MenuItem } from '@mui/material';
 import {
   CloudArrowUp,
@@ -9,6 +10,7 @@ import {
   Users,
   Heart,
   ArrowLeft,
+  CheckCircle,
 } from 'phosphor-react';
 import FormProvider from './FormProvider';
 import IconButton from './IconButton';
@@ -38,6 +40,8 @@ const eventTypes = [
 const MasterForm = ({ handleClose }) => {
   const [currentPopUp, setCurrentPopUp] = useState(1);
 
+  const dispatch = useDispatch();
+
   // Form 1 Fields
   const [eventTitle, setEventTitle] = useState('');
   const [eventDesc, setEventDesc] = useState('');
@@ -52,7 +56,7 @@ const MasterForm = ({ handleClose }) => {
   // Form 3 Fields
   const [participationType, setParticipationType] = useState('group');
   const [minMembers, setMinMembers] = useState(1);
-  const [maxMembers, setMaxMembers] = useState(1);
+  const [maxMembers, setMaxMembers] = useState(3);
   const currentDate = new Date();
   const formattedDate = currentDate.toISOString().slice(0, 10);
   const formattedTime = currentDate.toISOString().slice(11, 16);
@@ -69,8 +73,8 @@ const MasterForm = ({ handleClose }) => {
     const newEvent = {
       title: eventTitle,
       description: eventDesc,
-      image: eventImage,
-      bannerImage: eventBannerImage,
+      img: eventImage,
+      bannerImg: eventBannerImage,
       mode: eventMode,
       type: eventType,
       participationType,
@@ -83,8 +87,16 @@ const MasterForm = ({ handleClose }) => {
       judgingMode,
       location,
       isPrivate,
+      organiser: 'Synolo',
+      status: 'Ongoing',
+      pricePool: 30000,
+      noOfRegistrations: 256,
     };
     console.log(newEvent);
+
+    dispatch({ type: 'ADD_EVENT', payload: newEvent });
+    console.log('Dispatch done');
+    handleClose();
   };
 
   return (
@@ -148,28 +160,31 @@ const MasterForm = ({ handleClose }) => {
             <Typography variant="caption2" fontWeight={500}>
               Upload Image
             </Typography>
-            <Button
-              variant="outlined"
-              disableElevation
-              sx={{
-                width: '180px',
-                borderRadius: '10px',
-                textTransform: 'none',
-              }}
-              onClick={() => {
-                setCurrFileUpload('eventImg');
-                setCurrentPopUp(2);
-              }}
-            >
-              <Typography
-                variant="caption2"
-                fontWeight={500}
-                sx={{ paddingRight: '5px' }}
+            <Stack direction="row" alignItems="center" spacing={1}>
+              {eventImage && <CheckCircle size={22} color="#2B81F8" />}
+              <Button
+                variant="outlined"
+                disableElevation
+                sx={{
+                  width: '180px',
+                  borderRadius: '10px',
+                  textTransform: 'none',
+                }}
+                onClick={() => {
+                  setCurrFileUpload('eventImg');
+                  setCurrentPopUp(2);
+                }}
               >
-                Upload File
-              </Typography>
-              <CloudArrowUp size={16} />
-            </Button>
+                <Typography
+                  variant="caption2"
+                  fontWeight={500}
+                  sx={{ paddingRight: '5px' }}
+                >
+                  {eventImage ? 'Change Image' : 'Upload File'}
+                </Typography>
+                <CloudArrowUp size={16} />
+              </Button>
+            </Stack>
           </Stack>
 
           <Stack
@@ -180,28 +195,31 @@ const MasterForm = ({ handleClose }) => {
             <Typography variant="caption2" fontWeight={500}>
               Upload Banner Image
             </Typography>
-            <Button
-              variant="outlined"
-              disableElevation
-              sx={{
-                width: '180px',
-                borderRadius: '10px',
-                textTransform: 'none',
-              }}
-              onClick={() => {
-                setCurrFileUpload('bannerImg');
-                setCurrentPopUp(2);
-              }}
-            >
-              <Typography
-                variant="caption2"
-                fontWeight={500}
-                sx={{ paddingRight: '5px' }}
+            <Stack direction="row" alignItems="center" spacing={1}>
+              {eventBannerImage && <CheckCircle size={22} color="#2B81F8" />}
+              <Button
+                variant="outlined"
+                disableElevation
+                sx={{
+                  width: '180px',
+                  borderRadius: '10px',
+                  textTransform: 'none',
+                }}
+                onClick={() => {
+                  setCurrFileUpload('bannerImg');
+                  setCurrentPopUp(2);
+                }}
               >
-                Upload File
-              </Typography>
-              <CloudArrowUp size={16} />
-            </Button>
+                <Typography
+                  variant="caption2"
+                  fontWeight={500}
+                  sx={{ paddingRight: '5px' }}
+                >
+                  {eventBannerImage ? 'Change Image' : 'Upload File'}
+                </Typography>
+                <CloudArrowUp size={16} />
+              </Button>
+            </Stack>
           </Stack>
 
           <Stack

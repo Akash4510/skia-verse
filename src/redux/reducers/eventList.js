@@ -30,10 +30,9 @@ const initialState = [
 const eventListReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_EVENT':
-      return {
-        ...state,
-        events: [...state.events, action.payload],
-      };
+      let id = state.length + 1;
+      action.payload.id = id;
+      return [...state, action.payload];
 
     case 'RESET_EVENT_LIST':
       return initialState;
