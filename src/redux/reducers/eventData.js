@@ -1,31 +1,20 @@
 const initialState = {
-  title: '',
-  description: '',
-  img: '',
-  bannerImg: '',
-  mode: '',
-  type: '',
-  participationType: '',
-  minMembers: '',
-  maxMembers: '',
-  startDate: '',
-  endDate: '',
-  startTime: '',
-  endTime: '',
-  judgingMode: '',
-  location: '',
-  isPrivate: false,
+  isDetailedViewOpen: false,
+  selectedEventId: null,
 };
 
 const eventDataReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'SET_EVENT_DATA':
+    case 'OPEN_DETAILED_VIEW':
       return {
         ...state,
-        ...action.payload,
+        isDetailedViewOpen: true,
+        selectedEventId: action.payload,
       };
-    case 'RESET_EVENT_DATA':
-      return initialState;
+
+    case 'CLOSE_DETAILED_VIEW':
+      return { ...state, isDetailedViewOpen: false, selectedEventId: null };
+
     default:
       return state;
   }

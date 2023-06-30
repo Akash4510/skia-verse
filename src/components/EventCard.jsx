@@ -13,6 +13,7 @@ const EventCard = ({
   type,
   location,
   startDate,
+  onClick,
 }) => {
   const { isDesktop } = useResponsive();
 
@@ -26,6 +27,13 @@ const EventCard = ({
       alignItems="center"
       justifyContent="space-between"
       spacing={2}
+      onClick={onClick}
+      sx={{
+        cursor: 'pointer',
+        '&:hover': {
+          backgroundColor: '#F2F9FF',
+        },
+      }}
     >
       <Stack direction="row" spacing={2}>
         <Box width="140px" borderRadius="10px">
