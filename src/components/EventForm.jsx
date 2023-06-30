@@ -65,6 +65,39 @@ const MasterForm = ({ handleClose }) => {
   const [location, setLocation] = useState('');
   const [isPrivate, setIsPrivate] = useState(true);
 
+  const isValidForm1 = () => {
+    if (
+      eventTitle === '' ||
+      eventDesc === '' ||
+      eventImage === null ||
+      eventImage === '' ||
+      eventBannerImage === null ||
+      eventBannerImage === '' ||
+      eventMode === '' ||
+      eventType === ''
+    ) {
+      return false;
+    }
+    return true;
+  };
+
+  const isValidForm2 = () => {
+    if (
+      participationType === '' ||
+      minMembers === '' ||
+      maxMembers === '' ||
+      startDate === '' ||
+      endDate === '' ||
+      startTime === '' ||
+      endTime === '' ||
+      judgingMode === '' ||
+      location === ''
+    ) {
+      return false;
+    }
+    return true;
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
     let storedState = localStorage.getItem('allEvents');
@@ -309,8 +342,18 @@ const MasterForm = ({ handleClose }) => {
                 width: '120px',
                 borderRadius: '10px',
                 textTransform: 'none',
+                backgroundColor: isValidForm1() ? '#2B81F8' : '#85C2F6',
+                '&:hover': {
+                  backgroundColor: isValidForm1() ? '#2B81F8' : '#85C2F6',
+                },
+                '&:disabled': {
+                  backgroundColor: '#85C2F6',
+                },
               }}
-              onClick={() => setCurrentPopUp(3)}
+              onClick={() => {
+                if (!isValidForm1()) return;
+                setCurrentPopUp(3);
+              }}
             >
               <Typography
                 variant="caption2"
@@ -611,7 +654,16 @@ const MasterForm = ({ handleClose }) => {
                 width: '120px',
                 borderRadius: '10px',
                 textTransform: 'none',
+                backgroundColor: isValidForm2() ? '#2B81F8' : '#85C2F6',
+                '&:hover': {
+                  backgroundColor: isValidForm2() ? '#2B81F8' : '#85C2F6',
+                },
+                '&:disabled': {
+                  backgroundColor: '#85C2F6',
+                  color: '#fff',
+                },
               }}
+              disabled={!isValidForm2()}
               type="submit"
             >
               <Typography variant="caption2" fontWeight={500}>
