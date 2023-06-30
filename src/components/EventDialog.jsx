@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Dialog, DialogContent } from '@mui/material';
-import AddEventForm from './AddEventForm';
-import AddEventForm2 from './AddEventForm2';
+import MasterForm from './EventForm';
 
-const EventDialog = ({ open, handleClose }) => {
+const MasterDialog = ({ open, handleClose }) => {
   return (
     <Dialog fullWidth maxWidth="xs" open={open} keepMounted>
       <DialogContent>
-        <AddEventForm2 handleClose={handleClose} />
+        <MasterForm handleClose={handleClose} />
       </DialogContent>
     </Dialog>
   );
 };
 
-export default EventDialog;
+export default MasterDialog;
