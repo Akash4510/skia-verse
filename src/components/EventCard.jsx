@@ -4,15 +4,15 @@ import { CurrencyInr, Users, Tag, MapPin, CalendarBlank } from 'phosphor-react';
 import useResponsive from '../hooks/useResponsive';
 
 const EventCard = ({
-  name,
+  title,
   img,
   organiser,
   status,
   pricePool,
   noOfRegistrations,
-  tag,
+  type,
   location,
-  date,
+  startDate,
 }) => {
   const { isDesktop } = useResponsive();
 
@@ -29,12 +29,12 @@ const EventCard = ({
     >
       <Stack direction="row" spacing={2}>
         <Box width="140px" borderRadius="10px">
-          <img style={{ borderRadius: '10px' }} src={img} alt={name} />
+          <img style={{ borderRadius: '10px' }} src={img} alt={title} />
         </Box>
         <Stack spacing={2} py={1.5} justifyContent="space-between">
           <Stack>
             <Typography variant="h6" fontSize="1.4rem">
-              {name}
+              {title}
             </Typography>
             <Typography variant="caption" fontSize="1rem">
               {organiser}
@@ -96,7 +96,7 @@ const EventCard = ({
             <Stack direction="row" alignItems="center" spacing={1}>
               <Tag size={18} />
               <Typography variant="caption" fontSize="0.9rem">
-                {tag}
+                {type}
               </Typography>
             </Stack>
 
@@ -110,7 +110,7 @@ const EventCard = ({
             <Stack direction="row" alignItems="center" spacing={1}>
               <CalendarBlank size={18} />
               <Typography variant="caption" fontSize="0.9rem">
-                {date}
+                {startDate}
               </Typography>
             </Stack>
           </Stack>

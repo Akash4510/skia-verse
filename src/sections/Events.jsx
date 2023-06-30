@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Box, Stack, Typography, Button } from '@mui/material';
-import { EventCard } from '../components';
+import { EventCard, EventDialog } from '../components';
 import {
   Search,
   SearchIconWrapper,
   StyledInputBase,
 } from '../components/SearchBar';
 import { MagnifyingGlass } from 'phosphor-react';
-import { events } from '../constants/data/events';
 
 const Events = () => {
+  const [openDialog, setOpenDialog] = useState(false);
+  const events = useSelector((state) => state.allEvents);
+
   return (
     <Box p={2} sx={{ backgroundColor: '#FFF', borderRadius: '10px' }}>
       <Stack direction="row" justifyContent="space-between">
@@ -35,6 +38,7 @@ const Events = () => {
               backgroundColor: '#2B81F8',
               textTransform: 'none',
             }}
+            onClick={() => setOpenDialog(true)}
           >
             Add New
           </Button>
@@ -46,6 +50,13 @@ const Events = () => {
           <EventCard key={event.id} {...event} />
         ))}
       </Stack>
+
+      {openDialog && (
+        <EventDialog
+          open={openDialog}
+          handleClose={() => setOpenDialog(false)}
+        />
+      )}
     </Box>
   );
 };

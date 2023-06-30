@@ -53,3 +53,13 @@ select {
 body {
   font-family: 'Roboto', sans-serif;
 }
+
+.num-input::-webkit-outer-spin-button,
+.num-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input:hover {
+  outline: 1px solid #2b81f8;
+}

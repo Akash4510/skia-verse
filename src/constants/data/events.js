@@ -2,7 +2,7 @@ import { event1 } from '../images';
 
 export const events = [
   {
-    name: 'Stuck in the Sound',
+    title: 'Stuck in the Sound',
     img: event1,
     bannerImg: event1,
     organiser: 'Synolo',
