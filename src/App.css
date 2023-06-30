@@ -60,6 +60,6 @@ body {
   margin: 0;
 }
 
-input:hover {
+.num-input:hover {
   outline: 1px solid #2b81f8;
 }
